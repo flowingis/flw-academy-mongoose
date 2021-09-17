@@ -1,0 +1,6 @@
+[
+  { "nickname": "vasco", "firstname": "Vasco", "lastname": "Rossi", "roles": ["admin"] },
+  { "nickname": "liga", "firstname": "Luciano", "lastname": "Ligabue", "roles": ["maintainer"] },
+  { "nickname": "jovanotti", "firstname": "Lorenzo", "lastname": "Cherubini", "roles": ["maintainer", "driver"] },
+  { "nickname": "morgan", "firstname": "Marco", "lastname": "Castoldi", "roles": ["driver"] }
+]

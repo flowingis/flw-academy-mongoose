@@ -1,0 +1,12 @@
+[
+  { "plate": "AA000AB", "brand": "Fiat", "model": "Punto 1.4 metano", "year": 2004 },
+  { "plate": "BA001QQ", "brand": "Fiat", "model": "Punto 1.4 metano", "year": 2005 },
+  { "plate": "BB200AA", "brand": "Fiat", "model": "Punto 1.4 metano", "year": 2006 },
+  { "plate": "AC020CC", "brand": "Fiat", "model": "Tipo 1.6 diesel", "year": 2014 },
+  { "plate": "AF100FC", "brand": "Fiat", "model": "Tipo 1.3 diesel", "year": 2017 },
+  { "plate": "AK099PP", "brand": "Lancia", "model": "Ypsilon 0.9 metano", "year": 2014 },
+  { "plate": "BR333PO", "brand": "Lancia", "model": "Ypsilon 0.9 metano", "year": 2012 },
+  { "plate": "AQ300QQ", "brand": "Lancia", "model": "Delta 1.9 diesel", "year": 2009 },
+  { "plate": "AN777ZZ", "brand": "Ford", "model": "Fiesta 1.4 diesel", "year": 2005 },
+  { "plate": "AP666XX", "brand": "Ford", "model": "Fiesta 1.4 diesel", "year": 2006 }
+]
