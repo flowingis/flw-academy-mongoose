@@ -17,15 +17,12 @@ const MaintenanceCreate = () => {
                 show: true,
                 onClose: () => setNotification({...notification, show: false})
             }))
-            .catch(err => {
-                console.error(err.message);
-                setNotification({
-                    header: "Error",
-                    message: "Server Error!",
-                    show: false,
-                    onClose: () => setNotification({...notification, show: false})
-                })
-            });
+            .catch(err => setNotification({
+                header: "Error",
+                message: err.response.data,
+                show: true,
+                onClose: () => setNotification({...notification, show: false})
+            }));
     }
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {

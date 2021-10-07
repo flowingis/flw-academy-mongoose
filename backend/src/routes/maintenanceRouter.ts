@@ -1,4 +1,5 @@
 import express, {Request, Response} from "express";
+import {CreateMaintenance} from "../infrastructure/controller/maintenanceController";
 
 let router = express.Router();
 
@@ -74,10 +75,7 @@ router.get('/', (req: Request, res: Response) => {
     res.json(fakeData);
 });
 
-router.post('/', (req: Request, res: Response) => {
-    console.log(req.body)
-    res.send();
-});
+router.post('/', CreateMaintenance);
 
 router.patch('/:id/close', (req: Request, res: Response) => {
     console.log(req.params)
