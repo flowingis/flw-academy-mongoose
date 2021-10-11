@@ -28,4 +28,63 @@ const maintenanceSchema = new Schema<MaintenanceDocument>({
 
 const MaintenanceMongooseModel = model<MaintenanceDocument>('maintenance', maintenanceSchema);
 
+maintenanceSchema.methods.FindWithAggregation = async (params) => {
+    return MaintenanceMongooseModel
+        .aggregate<MaintenanceDocument>([
+            {
+                $match: params,
+            }, {
+                '$lookup': {
+                    'from': 'cars',
+                    'localField': 'carId',
+                    'foreignField': '_id',
+                    'as': 'tmpCar'
+                }
+            }, {
+                '$lookup': {
+                    'from': 'users',
+                    'localField': 'assigneeId',
+                    'foreignField': '_id',
+                    'as': 'tmpAssignee'
+                }
+            }, {
+                '$lookup': {
+                    'from': 'users',
+                    'localField': 'assignerId',
+                    'foreignField': '_id',
+                    'as': 'tmpAssigner'
+                }
+            }, {
+                '$addFields': {
+                    'car': {
+                        '$arrayElemAt': [
+                            '$tmpCar', 0
+                        ]
+                    },
+                    'assignee': {
+                        '$arrayElemAt': [
+                            '$tmpAssignee', 0
+                        ]
+                    },
+                    'assigner': {
+                        '$arrayElemAt': [
+                            '$tmpAssigner', 0
+                        ]
+                    }
+                }
+            }, {
+                '$addFields': {
+                    'id': '$_id',
+                    'car.id': '$car._id',
+                    'assignee.id': '$assignee._id',
+                    'assigner.id': '$assigner._id'
+                }
+            }, {
+                '$unset': [
+                    'tmpCar', 'tmpAssignee', 'tmpAssigner', 'carId', 'assignerId', 'assigneeId', '__v', '_id', 'car._id', 'assignee._id', 'assigner._id'
+                ]
+            }
+        ]);
+}
+
 export default MaintenanceMongooseModel;

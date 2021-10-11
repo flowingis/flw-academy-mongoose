@@ -1,12 +1,27 @@
 import {Button, Container, Form} from "react-bootstrap";
 import {InsertMaintenance, MaintenanceDTO, PrepareForInsert} from "../Api/MaintenanceApi";
-import React, {ChangeEvent, FormEvent, useState} from "react";
-import {CARS, USERS} from "../Data/FakeData";
+import React, {ChangeEvent, FormEvent, useEffect, useState} from "react";
 import Notification, {NotificationProps} from "./Notification";
+import {Car} from "../Models/Car";
+import {GetAllCars} from "../Api/CarApi";
+import {GetAllUsers} from "../Api/UserApi";
+import {Role, User} from "../Models/User";
 
 const MaintenanceCreate = () => {
     const [data, setData] = useState<MaintenanceDTO>(PrepareForInsert())
     const [notification, setNotification] = useState<NotificationProps>(Object.assign({}, { show: false }) as NotificationProps);
+    const [carList, setCarList] = useState<Car[]>([])
+    const [userList, setUserList] = useState<User[]>([])
+
+    useEffect(() => {
+        GetAllCars()
+            .then(data => setCarList(data))
+            .catch(err => console.error(err.message));
+
+        GetAllUsers()
+            .then(data => setUserList(data))
+            .catch(err => console.error(err.message));
+    }, [])
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -42,14 +57,14 @@ const MaintenanceCreate = () => {
                   <Form.Label>Car</Form.Label>
                   <Form.Control as="select" placeholder="Select car" value={data.carId} onChange={handleChange}>
                       <option key={"empty-value"} value={""}>{"--SELECT CAR--"}</option>
-                      {CARS.map(car => <option key={car.id} value={car.id}>{car.name}</option>)}
+                      {carList.map(car => <option key={car.id} value={car.id}>{car.brand} {car.model} {car.year} - {car.plate}</option>)}
                   </Form.Control>
               </Form.Group>
               <Form.Group controlId="assignerId">
                   <Form.Label>Assigner</Form.Label>
                   <Form.Control as="select" placeholder="Select assigner" value={data.assignerId} onChange={handleChange}>
                       <option key={"empty-value"} value={""}>{"--SELECT ASSIGNER--"}</option>
-                      {USERS.map(user => <option key={user.id} value={user.id}>{user.name}</option>)}
+                      {userList.map(user => <option key={user.id} value={user.id}>{user.firstname} {user.lastname} ({user.nickname})</option>)}
                   </Form.Control>
               </Form.Group>
               <Form.Group controlId="severity">
@@ -80,9 +95,9 @@ const MaintenanceCreate = () => {
                   <Form.Label>Assignee</Form.Label>
                   <Form.Control as="select" placeholder="Select assignee" value={data.assigneeId} onChange={handleChange}>
                       <option key={"empty-value"} value={""}>{"--SELECT ASSIGNEE--"}</option>
-                      {USERS
-                          .filter(user => user.roles.includes("maintainer"))
-                          .map(user => <option key={user.id} value={user.id}>{user.name}</option>)
+                      {userList
+                          .filter(user => user.roles.includes("maintainer" as Role))
+                          .map(user => <option key={user.id} value={user.id}>{user.firstname} {user.lastname} ({user.nickname})</option>)
                       }
                   </Form.Control>
               </Form.Group>

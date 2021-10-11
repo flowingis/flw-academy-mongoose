@@ -2,8 +2,9 @@ import axios from "axios";
 import dateFormat from "dateformat";
 import {Maintenance} from "../Models/Maintenance";
 import {MaintenanceQueryData} from "../Components/MaintenanceFilter";
+import Config from "../Config/Config";
 
-const BASE_URL = 'http://localhost:8000';
+const { BASE_URL } = Config;
 
 export type MaintenanceDTO = {
     carId: string,

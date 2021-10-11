@@ -42,8 +42,8 @@ export const NewCreateMaintenanceRequest = (
     };
 }
 
-const createMaintenanceUseCase = async (request: CreateMaintenanceRequest): Promise<void> => {
+const CreateMaintenanceUseCase = async (request: CreateMaintenanceRequest): Promise<void> => {
     await repository.create(request);
 }
 
-export default createMaintenanceUseCase;
+export default CreateMaintenanceUseCase;

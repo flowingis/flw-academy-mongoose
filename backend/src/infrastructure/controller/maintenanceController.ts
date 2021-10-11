@@ -1,8 +1,21 @@
 import {Request, Response} from "express";
-import createMaintenanceUseCase, {NewCreateMaintenanceRequest} from "../../application/useCase/createMaintenanceUseCase";
+import CreateMaintenanceUseCase, {NewCreateMaintenanceRequest} from "../../application/useCase/CreateMaintenanceUseCase";
+import GetAllCarsUseCase from "../../application/useCase/GetAllCarsUseCase";
+import GetAllMaintenancesUseCase, {NewGetAllMaintenancesRequest} from "../../application/useCase/GetAllMaintenancesUseCase";
+
+const GetAllMaintenances = async (req: Request, res: Response) => {
+    const result = await GetAllMaintenancesUseCase(
+        NewGetAllMaintenancesRequest(
+            req.query.reportingDateFrom?.toString(),
+            req.query.reportingDateTo?.toString(),
+        )
+    ).catch(err => res.status(400).send(err.message))
+
+    res.status(200).send(result);
+}
 
 const CreateMaintenance = async (req: Request, res: Response) => {
-    await createMaintenanceUseCase(
+    await CreateMaintenanceUseCase(
         NewCreateMaintenanceRequest(
             req.body.carId,
             req.body.assigneeId,
@@ -19,4 +32,4 @@ const CreateMaintenance = async (req: Request, res: Response) => {
     res.status(200).send();
 }
 
-export { CreateMaintenance }
+export { GetAllMaintenances, CreateMaintenance }
