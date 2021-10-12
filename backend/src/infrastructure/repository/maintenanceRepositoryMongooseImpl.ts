@@ -3,6 +3,7 @@ import {CreateMaintenanceRequest} from "../../application/useCase/CreateMaintena
 import MaintenanceMongooseModel from "../mongoose/MaintenanceMongooseModel";
 import {GetAllMaintenancesRequest} from "../../application/useCase/GetAllMaintenancesUseCase";
 import {Maintenance} from "../../domain/maintenance";
+import {CloseMaintenanceRequest} from "../../application/useCase/CloseMaintenanceUseCase";
 
 export default class MaintenanceRepositoryMongooseImpl implements MaintenanceRepository {
     async create(data: CreateMaintenanceRequest): Promise<void> {
@@ -14,6 +15,10 @@ export default class MaintenanceRepositoryMongooseImpl implements MaintenanceRep
         return await MaintenanceMongooseModel.schema.methods.FindWithAggregation(
             this.getFindParams(query)
         );
+    }
+
+    async close(data: CloseMaintenanceRequest): Promise<void> {
+        await MaintenanceMongooseModel.updateOne({ _id: data.maintenanceId }, { progress: "DONE" });
     }
 
     getFindParams(query: GetAllMaintenancesRequest): any {
