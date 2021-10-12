@@ -1,7 +1,8 @@
-import express, {Request, Response} from "express";
+import express from "express";
 import {
     CloseMaintenance,
     CreateMaintenance,
+    DeleteMaintenance,
     GetAllMaintenances
 } from "../infrastructure/controller/maintenanceController";
 
@@ -13,9 +14,6 @@ router.post('/', CreateMaintenance);
 
 router.patch('/:id/close', CloseMaintenance);
 
-router.delete('/:id', (req: Request, res: Response) => {
-    console.log(req.params)
-    res.send();
-});
+router.delete('/:id', DeleteMaintenance);
 
 export default router;

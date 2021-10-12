@@ -2,6 +2,7 @@ import {Request, Response} from "express";
 import CreateMaintenanceUseCase, {NewCreateMaintenanceRequest} from "../../application/useCase/CreateMaintenanceUseCase";
 import GetAllMaintenancesUseCase, {NewGetAllMaintenancesRequest} from "../../application/useCase/GetAllMaintenancesUseCase";
 import CloseMaintenanceUseCase, {NewCloseMaintenanceRequest} from "../../application/useCase/CloseMaintenanceUseCase";
+import DeleteMaintenanceUseCase, {NewDeleteMaintenanceRequest} from "../../application/useCase/DeleteMaintenanceUseCase";
 
 const GetAllMaintenances = async (req: Request, res: Response) => {
     const result = await GetAllMaintenancesUseCase(
@@ -40,4 +41,17 @@ const CloseMaintenance = async (req: Request, res: Response) => {
     res.status(200).send();
 }
 
-export { GetAllMaintenances, CreateMaintenance, CloseMaintenance }
+const DeleteMaintenance = async (req: Request, res: Response) => {
+    await DeleteMaintenanceUseCase(
+        NewDeleteMaintenanceRequest(req.params.id)
+    ).catch(err => res.status(400).send(err.message))
+
+    res.status(200).send();
+}
+
+export {
+    GetAllMaintenances,
+    CreateMaintenance,
+    CloseMaintenance,
+    DeleteMaintenance
+}

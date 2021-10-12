@@ -4,6 +4,7 @@ import MaintenanceMongooseModel from "../mongoose/MaintenanceMongooseModel";
 import {GetAllMaintenancesRequest} from "../../application/useCase/GetAllMaintenancesUseCase";
 import {Maintenance} from "../../domain/maintenance";
 import {CloseMaintenanceRequest} from "../../application/useCase/CloseMaintenanceUseCase";
+import {DeleteMaintenanceRequest} from "../../application/useCase/DeleteMaintenanceUseCase";
 
 export default class MaintenanceRepositoryMongooseImpl implements MaintenanceRepository {
     async create(data: CreateMaintenanceRequest): Promise<void> {
@@ -19,6 +20,10 @@ export default class MaintenanceRepositoryMongooseImpl implements MaintenanceRep
 
     async close(data: CloseMaintenanceRequest): Promise<void> {
         await MaintenanceMongooseModel.updateOne({ _id: data.maintenanceId }, { progress: "DONE" });
+    }
+
+    async delete(data: DeleteMaintenanceRequest): Promise<void> {
+        await MaintenanceMongooseModel.findByIdAndDelete(data.maintenanceId);
     }
 
     getFindParams(query: GetAllMaintenancesRequest): any {
