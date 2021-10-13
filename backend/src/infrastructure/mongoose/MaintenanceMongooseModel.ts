@@ -26,6 +26,8 @@ const maintenanceSchema = new Schema<MaintenanceDocument>({
     notes: String
 });
 
+maintenanceSchema.index({ reportingDate: 1 });
+
 const MaintenanceMongooseModel = model<MaintenanceDocument>('maintenance', maintenanceSchema);
 
 maintenanceSchema.methods.FindWithAggregation = async (params) => {
@@ -84,7 +86,8 @@ maintenanceSchema.methods.FindWithAggregation = async (params) => {
                     'tmpCar', 'tmpAssignee', 'tmpAssigner', 'carId', 'assignerId', 'assigneeId', '__v', '_id', 'car._id', 'assignee._id', 'assigner._id'
                 ]
             }
-        ]);
+        ])
+        .sort({ reportingDate: 1 });
 }
 
 export default MaintenanceMongooseModel;
